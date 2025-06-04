@@ -367,47 +367,46 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // Send to N8N
-        async function sendToN8N(text) {
-            loading.classList.add('active');
-            status.textContent = 'ARIA denkt nach...';
+     async function sendToN8N(text) {
+    loading.classList.add('active');
+    status.textContent = 'ARIA denkt nach...';
 
-            try {
-                const response = await fetch(N8N_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-    message: text,
-    timestamp: new Date().toISOString(),
-    user: 'Ralf'
-})
-                });
+    try {
+        const response = await fetch(N8N_WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: text,
+                timestamp: new Date().toISOString(),
+                user: 'Ralf'
+            })
+        });
 
-                const data = await response.json();
-                
-                if (data.response) {
-                    addMessage(data.response, 'aria');
-                    
-                    // Play audio response if available
-                    if (data.audioUrl) {
-                        playAudioResponse(data.audioUrl);
-                    } else if (data.audioBase64) {
-                        playAudioFromBase64(data.audioBase64);
-                    } else {
-                        // Fallback to browser TTS
-                        speakResponse(data.response);
-                    }
-                }
-            } catch (error) {
-                console.error('Error sending to N8N:', error);
-                addMessage('Entschuldigung, es gab einen Fehler. Bitte versuche es noch einmal.', 'aria');
-            } finally {
-                loading.classList.remove('active');
-                status.textContent = 'Bereit zum Sprechen';
+        const data = await response.json();
+        
+        if (data.response) {
+            addMessage(data.response, 'aria');
+            
+            // Play audio response if available
+            if (data.audioUrl) {
+                playAudioResponse(data.audioUrl);
+            } else if (data.audioBase64) {
+                playAudioFromBase64(data.audioBase64);
+            } else {
+                // Fallback to browser TTS
+                speakResponse(data.response);
             }
         }
+    } catch (error) {
+        console.error('Error sending to N8N:', error);
+        addMessage('Entschuldigung, es gab einen Fehler. Bitte versuche es noch einmal.', 'aria');
+    } finally {
+        loading.classList.remove('active');
+        status.textContent = 'Bereit zum Sprechen';
+    }
+}
 
         // Play audio response
         function playAudioResponse(url) {
