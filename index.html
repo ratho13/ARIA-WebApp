@@ -278,7 +278,7 @@
 
     <script>
         // Configuration
-        const N8N_WEBHOOK_URL = 'https://automation.baltic-ihub.com/webhook/aria-chat'; // CHANGE THIS!
+        const N8N_WEBHOOK_URL = 'https://automation.baltic-ihub.com/webhook/172b9dba-a5dc-4b5f-94b7-c33de739ef78'; 
         
         // State
         let isRecording = false;
@@ -379,10 +379,12 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        message: text,
-                        timestamp: new Date().toISOString(),
-                        user: 'Ralf'
-                    })
+    body: {
+        message: text,
+        timestamp: new Date().toISOString(),
+        user: 'Ralf'
+    }
+})
                 });
 
                 const data = await response.json();
