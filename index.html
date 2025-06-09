@@ -373,16 +373,16 @@
 
     try {
         const response = await fetch(N8N_WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: text,
-                timestamp: new Date().toISOString(),
-                user: 'Ralf'
-            })
-        });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        message: text,
+        timestamp: new Date().toISOString(),
+        user: 'Ralf'
+    })
+});
 
         const data = await response.json();
         
